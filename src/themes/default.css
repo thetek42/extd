@@ -1,0 +1,25 @@
+body {
+    font-family: 'Latin Modern Roman', 'LM Roman 10', serif;
+    font-size: 14pt;
+    margin: 0;
+    margin-left: calc(50vw - 22.5rem);
+    margin-top: 2.5rem;
+    max-width: 45rem;
+}
+
+p {
+    text-align: justify;
+}
+
+code, pre {
+    font-family: 'Latin Modern Mono', 'LM Mono 10', monospace;
+    font-size: 14pt;
+}
+
+emph {
+    background-color: #ddd;
+    border-radius: .2rem;
+    display: inline-block;
+    padding: 0 .3rem .1rem .3rem;
+}
+

@@ -1,0 +1,13 @@
+# Header
+
+## Subheader 1
+
+This is a *bold* text, and this is an _italic_ text. *_Bold italic_* is also possible. Text can also be =underlined= or |highlighted|. Inline code looks like this: `printf("Hello, World!\\n");`. Backslashes can escape formatting chars: \* \_ \= \| \` \\.
+This is another paragraph in a new line.
+
+This is another paragraph with a blank line inbetween.
+
+## Subheader 2
+
+Lorem ipsum dolor sit amet.
+
