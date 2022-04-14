@@ -5,6 +5,7 @@
 
 #include "extd.h"
 #include "macros.h"
+#include "strutil.h"
 #include "util.h"
 #include "themes/default.h"
 
@@ -84,13 +85,14 @@ main (int    argc,
                 css = THEME_DEFAULT;
         }
 
-        char *html = extd_to_html (inbuf, css);
+        str_t html = extd_to_html (inbuf, css);
 
-        file_write (output_file, html);
+        file_write (output_file, html.str);
 
         free (inbuf);
         if (custom_theme) free (css);
         if (output_file_malloced) free (output_file);
+        str_free (html);
     }
 
     return EXIT_SUCCESS;

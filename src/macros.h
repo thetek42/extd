@@ -47,7 +47,7 @@
         {                                                                                               \
             if (format_len > 0)                                                                         \
                 DIE ("Unclosed formatting tag in paragraph before \x1b[34mline %zu\x1b[0m.\n", linenr); \
-            strcat_a_buf (&html, "</p>\n");                                                             \
+            str_lcat (&html, "</p>\n", 5);                                                              \
             p_tag_open = false;                                                                         \
         }                                                                                               \
     } while (0)
@@ -58,13 +58,13 @@
     {                                                                                                \
         if (format_len > (size_t) format_pos + 1) DIE (LINENR "Unclosed formatting tag.\n", linenr); \
         format_len--;                                                                                \
-        strcat_a_buf (&html, "</" tag ">");                                                          \
+        str_cat (&html, "</" tag ">");                                                               \
     }                                                                                                \
     else                                                                                             \
     {                                                                                                \
         formats[format_len] = key;                                                                   \
         format_len++;                                                                                \
-        strcat_a_buf (&html, "<" tag ">");                                                           \
+        str_cat (&html, "<" tag ">");                                                                \
     }
 
 
