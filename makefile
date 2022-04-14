@@ -1,62 +1,38 @@
-# compiler and linker
-CC        := gcc
+target := extd
 
-# target binary
-TARGET    := extd
+cc     := gcc
+cflags := -Wall -Wextra -Werror
+lib    :=
 
-# source, object and binary folders
-SRCDIR    := src
-BUILDDIR  := obj
-TARGETDIR := bin
-SRCEXT    := c
-DEPEXT    := d
-OBJEXT    := o
+bin    := bin
+obj    := obj
+src    := src
 
-# flags and libraries
-CFLAGS    := -Wall -Wextra -g
-LIB       :=
 
-#---------------------------------------------------------------------------------
-# DO NOT EDIT BELOW THIS LINE
-#---------------------------------------------------------------------------------
-SOURCES   := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
-OBJECTS   := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.$(OBJEXT)))
 
-all: directories $(TARGET)
+### DO NOT EDIT BELOW ###
 
-# remake
-remake: cleaner all
+sources := $(shell find $(src) -type f -name *.c)
+objects := $(patsubst $(src)/%, $(obj)/%, $(sources:.c=.o))
 
-# make the directories
-directories:
-	@mkdir -p $(TARGETDIR)
-	@mkdir -p $(BUILDDIR)
 
-# clean only objects
+all: mkdir $(target)
+
 clean:
-	@$(RM) -rf $(BUILDDIR)
+	@rm -rf $(bin) $(obj)
 
-# full clean, objects and binaries
-cleaner: clean
-	@$(RM) -rf $(TARGETDIR)
+remake: clean all
 
-# pull in dependency info for *existing* .o files
--include $(OBJECTS:.$(OBJEXT)=.$(DEPEXT))
+.PHONY: all clean remake
 
-# link
-$(TARGET): $(OBJECTS)
-	$(CC) -o $(TARGETDIR)/$(TARGET) $^ $(LIB)
 
-# compile
-$(BUILDDIR)/%.$(OBJEXT): $(SRCDIR)/%.$(SRCEXT)
+mkdir:
+	@mkdir -p $(bin) $(obj)
+
+$(target): $(objects)
+	$(cc) $(cflags) $(lib) $^ -o $(bin)/$(target)
+
+$(obj)/%.o: $(src)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
-	@$(CC) $(CFLAGS) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
-	@cp -f $(BUILDDIR)/$*.$(DEPEXT) $(BUILDDIR)/$*.$(DEPEXT).tmp
-	@sed -e 's|.*:|$(BUILDDIR)/$*.$(OBJEXT):|' < $(BUILDDIR)/$*.$(DEPEXT).tmp > $(BUILDDIR)/$*.$(DEPEXT)
-	@sed -e 's/.*://' -e 's/\\$$//' < $(BUILDDIR)/$*.$(DEPEXT).tmp | fmt -1 | sed -e 's/^ *//' -e 's/$$/:/' >> $(BUILDDIR)/$*.$(DEPEXT)
-	@rm -f $(BUILDDIR)/$*.$(DEPEXT).tmp
-
-# non-file targets
-.PHONY: all remake clean cleaner
+	$(cc) -c $(cflags) $(lib) -o $@ $<
 
